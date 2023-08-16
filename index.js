@@ -1,9 +1,10 @@
 
+//Add Svg Element
 const canvas = d3.select('.canva')
-const svg = canvas.append('svg').attr('width','500').attr('hight','500')
-
+const svg = canvas.append('svg')
+    .attr('width','1000')
+    .attr('height','1000')
 /*
-
 //Circle
 svg.append('circle')
   .attr('cx','100')
@@ -29,14 +30,14 @@ svg.append('line')
     .attr('y2','46')
     .attr('stroke', 'purple')
 
-*/
+
 
 //Text
 svg.append('text')
     .text('Hello')
     .attr('text-anchor','end')
     .attr('fill','gray')
-    .attr('font-size','5vw')
+    .attr('font-size','3vw')
     .attr('x','110')
     .attr('y','40')
 
@@ -44,14 +45,36 @@ svg.append('text')
     .text('There')
     .attr('text-anchor','middle')
     .attr('fill','gray')
-    .attr('font-size','2vw')
+    .attr('font-size','1vw')
     .attr('x','110')
     .attr('y','60')
 
     svg.append('text')
     .text('Mate!')
+    .style('font-family','Plus Jakarta Sans')
     .attr('text-anchor','start')
     .attr('stroke','red')
-    .attr('font-size','6vw')
+    .attr('font-size','4vw')
     .attr('x','110')
-    .attr('y','100')
+    .attr('y','110')
+*/
+
+//Using Data
+//const rect = svg.append('rect');
+//const canvas = d3.select('.canva');
+//const svg = canvas.select('svg');
+const rect = svg.selectAll('rect')
+
+//json
+d3.json('test.json')
+    .then(data => {
+        console.log(data)
+     rect
+        .data(data)
+        .enter().append('rect')
+        .attr('width', '24')
+        .attr('fill', d => d.fill)
+        .attr('height', d => d.height)
+        .attr('x',(d, i) => i*25)
+        .attr('y',(d, i) => 100 - (d.height))
+})
