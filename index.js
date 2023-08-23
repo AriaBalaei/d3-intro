@@ -1,4 +1,4 @@
-
+/*
 //Add Svg Element
 const canvas = d3.select('.canva')
 const svg = canvas.append('svg')
@@ -57,7 +57,7 @@ svg.append('text')
     .attr('font-size','4vw')
     .attr('x','110')
     .attr('y','110')
-*/
+
 
 //Using Data
 //const rect = svg.append('rect');
@@ -72,9 +72,43 @@ d3.json('test.json')
      rect
         .data(data)
         .enter().append('rect')
-        .attr('width', '24')
+        .attr('width', d => d.width)
         .attr('fill', d => d.fill)
         .attr('height', d => d.height)
         .attr('x',(d, i) => i*25)
         .attr('y',(d, i) => 100 - (d.height))
 })
+*/
+//paths
+const canvas = d3.select('.canva');
+
+var data = [{x: 15, y: 15} , {x: 15, y: 10} , {x: 12, y: 15},
+            {x: 25, y: 35} , {x: 25, y: 12} , {x: 21, y: 23}];
+
+const svg = canvas.append('svg')
+                .attr('width', '900')
+                .attr('height', '900')
+
+const margin = {top: 20, right: 20, bottom: 70, left: 70}
+const graphWidth = 600 - margin.left - margin.right;
+const graphHeight = 600 -margin.top - margin.bottom;
+
+const area = svg.append('g')
+                .attr('height', graphHeight)
+                .attr('width', graphWidth)
+                .attr('transform',`translate(${margin.left},${margin.top})`);
+                
+            
+var linearGen = d3.line()
+                    .x((d, i) => d.x * 17)
+                    .y((d, i) => d.y * 7)
+                    .curve(d3.curveCardinal)
+                    //https://github.com/d3/d3/blob/main/API.md
+                    
+area.append('path')
+        .attr('d', linearGen(data))
+        .attr('fill', 'darkblue')    
+        .attr('stroke', 'red')
+        
+
+
